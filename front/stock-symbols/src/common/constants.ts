@@ -1,0 +1,4 @@
+export enum PagesEnum {
+  PERFOMANCE_DAY = 'PERFOMANCE_DAY',
+  PERFOMANCE_HOUR = 'PERFOMANCE_HOUR',
+}
