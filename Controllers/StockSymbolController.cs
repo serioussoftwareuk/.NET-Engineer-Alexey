@@ -232,13 +232,13 @@ namespace StockSymbolsApi.Controllers
 
                 if (takeDataFromCache)
                 {
-                    givenSymbol = await _dbManager.GetLatestChart(symbol, ByDayRange);
-                    etfSymbol = await _dbManager.GetLatestChart(EtfSymbol, ByDayRange);
+                    givenSymbol = await _dbManager.GetLatestChart(symbol, ByHourRange);
+                    etfSymbol = await _dbManager.GetLatestChart(EtfSymbol, ByHourRange);
                 }
                 else
                 {
-                    givenSymbol = await FetchSymbol(symbol, ByDayInterval, ByDayRange);
-                    etfSymbol = await FetchSymbol(EtfSymbol, ByDayInterval, ByDayRange);
+                    givenSymbol = await FetchSymbol(symbol, ByHourInterval, ByHourRange);
+                    etfSymbol = await FetchSymbol(EtfSymbol, ByHourInterval, ByHourRange);
                 }
 
                 var result = _calculator.CalculatePerformanceComparison(givenSymbol, etfSymbol);
@@ -258,8 +258,11 @@ namespace StockSymbolsApi.Controllers
         /// </summary>
         private async Task<Chart> FetchSymbol(string symbol, string interval, string range, string region = null)
         {
-            var result = await _financeService.GetChart(symbol, region, ByDayInterval, ByDayRange);
-            await _dbManager.SaveChart(result.Chart);
+            var result = await _financeService.GetChart(symbol, region, interval, range);
+            if (result.Chart.Error == null)
+            {
+                await _dbManager.SaveChart(result.Chart);
+            }
 
             return result.Chart;
         }

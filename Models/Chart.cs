@@ -15,9 +15,15 @@ namespace StockSymbolsApi.Models
     {
         public ObjectId Id { get; set; }    // MongoDB key
         public List<ChartResult> Result { get; set; }
-        public string Error { get; set; }
+        public ChartError Error { get; set; }
     }
 
+    public class ChartError
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
     public class ChartResult
     {
         public List<long> Timestamp { get; set; }

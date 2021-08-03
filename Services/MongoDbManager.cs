@@ -51,7 +51,7 @@ namespace StockSymbolsApi.Services
         public async Task<List<Chart>> GetCharts(string symbol, string range)
         {
             var filter = new FilterDefinitionBuilder<Chart>()
-                .Where(ch => string.IsNullOrEmpty(ch.Error) && ch.Result.Any(r => r.Meta.Symbol == symbol) && ch.Result.Any(r => r.Meta.Range == range));
+                .Where(ch => ch.Result.Any(r => r.Meta.Symbol == symbol) && ch.Result.Any(r => r.Meta.Range == range));
 
             var charts = await _chartsCollection.Find(filter).Limit(DbFetchLimit).Sort("{ $natural: -1 }").ToListAsync();
             return charts;
@@ -65,7 +65,7 @@ namespace StockSymbolsApi.Services
         public async Task<Chart> GetLatestChart(string symbol, string range)
         {
             var filter = new FilterDefinitionBuilder<Chart>()
-                .Where(ch => string.IsNullOrEmpty(ch.Error) && ch.Result.Any(r => r.Meta.Symbol == symbol) && ch.Result.Any(r => r.Meta.Range == range));
+                .Where(ch => ch.Result.Any(r => r.Meta.Symbol == symbol) && ch.Result.Any(r => r.Meta.Range == range));
 
             var charts = await _chartsCollection.Find(filter).Limit(1).Sort("{ $natural: -1 }").ToListAsync();
             return charts.FirstOrDefault();
