@@ -15,7 +15,7 @@ export const SymbolInput: React.FC<IProps> = ({ setSymbol }: IProps) => {
       className="textbox"
       onChange={(e) => {
         const { target } = e;
-        if (e && target && target.value && target.value.length > 2) onChange(target.value);
+        if (e?.target?.value && e.target.value.length > 1) onChange(target.value);
       }}
     />
   );
